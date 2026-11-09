@@ -14,6 +14,12 @@ function Notes() {
       body: 'Practice writing one handler for many inputs.',
     },
   ])
+  const [noteForm, setNoteForm] = useState({ title: '', body: '' })
+
+  function handleChange(event) {
+    const { name, value } = event.target
+    setNoteForm((currentForm) => ({ ...currentForm, [name]: value }))
+  }
 
    return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
@@ -36,11 +42,15 @@ function Notes() {
           <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
           <input
             name="title"
+            value={noteForm.title}
+            onChange={handleChange}
             placeholder="Title"
             className="h-[52px] w-full border border-[#e6e6e6] px-4 text-lg outline-none placeholder:text-black/40 placeholder:italic focus:border-[#cf7d7d]"
           />
            <textarea
             name="body"
+            value={noteForm.body}
+            onChange={handleChange}
             placeholder="Write your note"
             className="h-[120px] w-full resize-none py-3 border border-[#e6e6e6] px-4 text-lg outline-none placeholder:text-black/40 placeholder:italic focus:border-[#cf7d7d]"
           />
