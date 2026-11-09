@@ -2,7 +2,7 @@ import { useState } from 'react'
 import NoteCard from './NoteCard.jsx'
 
 function Notes() {
-  const [notes] = useState([
+  const [notes, setNotes] = useState([
     {
       id: 1,
       title: 'Review map and filter',
@@ -19,6 +19,27 @@ function Notes() {
   function handleChange(event) {
     const { name, value } = event.target
     setNoteForm((currentForm) => ({ ...currentForm, [name]: value }))
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const title = noteForm.title.trim()
+    const body = noteForm.body.trim()
+
+    if (!title || !body) {
+      return
+    }
+
+    setNotes((currentNotes) => [
+      ...currentNotes,
+      {
+        id: Math.max(0, ...currentNotes.map((note) => note.id)) + 1,
+        title,
+        body,
+      },
+    ])
+    setNoteForm({ title: '', body: '' })
   }
 
    return (
@@ -38,7 +59,7 @@ function Notes() {
         </div>
 
         
-        <form className="grid gap-3">
+        <form className="grid gap-3" onSubmit={handleSubmit}>
           <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
           <input
             name="title"
