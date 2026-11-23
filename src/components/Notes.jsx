@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import NoteCard from './NoteCard.jsx'
 
 const startingNotes = [
@@ -35,13 +35,17 @@ function Notes() {
     localStorage.setItem('notes', JSON.stringify(notes))
   }, [notes])
 
-  const visibleNotes = notes.filter((note) =>
-    note.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  const visibleNotes = useMemo(
+    () =>
+      notes.filter((note) =>
+        note.title.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    [notes, searchTerm],
   )
 
   function handleChange(event) {
     const { name, value } = event.target
-    setNoteForm((currentForm) => ({ ...currentForm, [name]: value }))
+    setNoteForm((currentForm) => ({ ...currentForm, [name]: value  }))
   }
 
   function handleSubmit(event) {
